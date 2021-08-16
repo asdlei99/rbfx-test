@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+tree .
 for platform in Linux MacOS Windows;
 do
     if [ ! -e SDK-$platform ];
