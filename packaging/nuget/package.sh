@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
-tree .
+env
 for platform in Linux MacOS Windows;
 do
     if [ ! -e SDK-$platform ];
     then
-        if [ $CI ];
+        if [ "$GITHUB_ACTIONS" != "" ];
         then
-            # When testing use zips downloaded from CI
-            unzip -n ./rbfx-$platform*.zip -d ./SDK-$platform
-        else
             # CI itself downloads artifacts as unpacked dirs
             mv ./rbfx-$platform* ./SDK-$platform
+        else
+            # When testing use zips downloaded from CI
+            unzip -n ./rbfx-$platform*.zip -d ./SDK-$platform
         fi
     fi
 done
+ls -lah
 
 version=$(git describe --abbrev=0 --tags 2>/dev/null)
 if [ "$?" -ne "0" ];
