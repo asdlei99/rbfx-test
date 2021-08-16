@@ -4,7 +4,14 @@ for platform in Linux MacOS Windows;
 do
     if [ ! -e SDK-$platform ];
     then
-        unzip -n rbfx-$platform*.zip -d ./SDK-$platform
+        if [ $CI ];
+        then
+            # When testing use zips downloaded from CI
+            unzip -n ./rbfx-$platform*.zip -d ./SDK-$platform
+        else
+            # CI itself downloads artifacts as unpacked dirs
+            mv ./rbfx-$platform* ./SDK-$platform
+        fi
     fi
 done
 
